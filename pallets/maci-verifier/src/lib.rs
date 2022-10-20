@@ -68,7 +68,7 @@ pub mod pallet {
 			let who = ensure_signed(origin)?;
 			let proof = ProofStr { pi_a: proof_a, pi_b: proof_b, pi_c: proof_c };
 			let vkey = VkeyStr {
-				alpha_1: vk_alpha1, 
+				alpha_1: vk_alpha1,
 				beta_2: vk_beta_2,
 				gamma_2: vk_gamma_2,
 				delta_2: vk_delta_2,
@@ -101,9 +101,9 @@ pub mod pallet {
 
 							let pvk =  prepare_verifying_key(&vkey);
 
-							match verify_proof(&pvk, &proof, &[Fr::from_str_vartime("33").unwrap()]) {
+							match verify_proof(&pvk, &proof, &[Fr::from_str_vartime("5918150237815448832246852292844246487422932139505978938238813888405947044400").unwrap()]) {
 								Ok(()) => Self::deposit_event(Event::<T>::VerificationPassed(who)),
-								Err(e) => { 
+								Err(e) => {
 									log::info!("{:?}", e);
 									()
 								}

@@ -16,8 +16,8 @@ mod benchmarking;
 
 #[frame_support::pallet]
 pub mod pallet {
-	use frame_support::pallet_prelude::*;
-	use frame_system::pallet_prelude::*;
+	use frame_support::pallet_prelude::{*, DispatchResult};
+	use frame_system::pallet_prelude::{*, OriginFor};
 
 	/// Configure the pallet by specifying the parameters and types on which it depends.
 	#[pallet::config]
@@ -46,6 +46,7 @@ pub mod pallet {
 		/// Event documentation should end with an array that provides descriptive names for event
 		/// parameters. [something, who]
 		SomethingStored(u32, T::AccountId),
+		// Test(String, T::AccountId),
 	}
 
 	// Errors inform users that something went wrong.
@@ -79,6 +80,22 @@ pub mod pallet {
 			// Return a successful DispatchResultWithPostInfo
 			Ok(())
 		}
+
+		// #[pallet::weight(10_000 + T::DbWeight::get().writes(1))]
+		// pub fn encode_hex(origin: OriginFor<T>, bytes: &[u8]) -> DispatchResult {
+		// 	let who = ensure_signed(origin)?;
+		// 	let mut s = String::with_capacity(bytes.len() * 2);
+		// 	for &b in bytes {
+		// 		write!(&mut s, "{:02x}", b).unwrap();
+		// 	}
+		// 	// Update storage.
+		// 	<Something<T>>::put(s);
+
+		// 	// Emit an event.
+		// 	Self::deposit_event(Event::Test(s, who));
+		// 	// Return a successful DispatchResultWithPostInfo
+		// 	Ok(())
+		// }
 
 		/// An example dispatchable that may throw a custom error.
 		#[pallet::weight(10_000 + T::DbWeight::get().reads_writes(1,1))]
