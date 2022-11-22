@@ -1,6 +1,10 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
-use pairing::{Engine, MultiMillerLoop};
+use pairing::{
+    Engine,
+    CurveAffine,
+    EncodedPoint
+};
 
 use codec::{ Encode, Decode };
 use sp_std::sync::Arc;
@@ -102,14 +106,15 @@ impl<E: Engine> PartialEq for Parameters<E> {
     }
 }
 
-#[derive(Clone, Encode, Decode, Default, PartialEq, Eq)]
-pub struct PreparedVerifyingKey<E: MultiMillerLoop> {
+// #[derive(Clone, Encode, Decode, Default, PartialEq, Eq)]
+#[derive(Clone, Encode, Decode)]
+pub struct PreparedVerifyingKey<E: Engine> {
     /// Pairing result of alpha*beta
-    alpha_g1_beta_g2: E::Gt,
+    alpha_g1_beta_g2: E::Fqk,
     /// -gamma in G2
-    neg_gamma_g2: E::G2Prepared,
+    neg_gamma_g2: <E::G2Affine as CurveAffine>::Prepared,
     /// -delta in G2
-    neg_delta_g2: E::G2Prepared,
+    neg_delta_g2: <E::G2Affine as CurveAffine>::Prepared,
     /// Copy of IC from `VerifiyingKey`.
     ic: Vec<E::G1Affine>,
 }

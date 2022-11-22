@@ -15,7 +15,7 @@ pub mod pallet {
 	use frame_support::pallet_prelude::*;
 	use frame_system::pallet_prelude::*;
 	use sp_std::vec::Vec;
-	use bls12_381::Bls12;
+	use pairing::bls12_381::Bls12;
 	use ff::PrimeField as Fr;
 
 	#[pallet::config]

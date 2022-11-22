@@ -1,8 +1,9 @@
 use super::{ProofStr, VkeyStr};
 use bellman_verifier::{Proof, VerifyingKey};
-use bls12_381::{G1Affine, G2Affine};
+use pairing::bls12_381::{G1Affine, G2Affine};
 use pairing::Engine;
 use sp_std::vec::Vec;
+use bls12_381::{G1Affine as bellman_G1, G2Affine as bellman_G2};
 
 pub fn parse_proof<E>(pof: ProofStr) -> Proof<E>
 where
@@ -28,9 +29,9 @@ where
 		c_arr[i] = pi_c[i];
 	}
 
-	let pia_affine = G1Affine::from_uncompressed(&a_arr).unwrap();
-	let pib_affine = G2Affine::from_uncompressed(&b_arr).unwrap();
-	let pic_affine = G1Affine::from_uncompressed(&c_arr).unwrap();
+	let pia_affine = bellman_G1::from_uncompressed(&a_arr).unwrap();
+	let pib_affine = bellman_G2::from_uncompressed(&b_arr).unwrap();
+	let pic_affine = bellman_G1::from_uncompressed(&c_arr).unwrap();
 
 	Proof { a: pia_affine, b: pib_affine, c: pic_affine }
 }
@@ -89,14 +90,14 @@ where
 		ic_1[i] = vk_ic[1][i];
 	}
 
-	let alpha1_affine = G1Affine::from_uncompressed(&alpha1).unwrap();
-	let beta1_affine = G1Affine::from_uncompressed(&beta1).unwrap();
-	let beta2_affine = G2Affine::from_uncompressed(&beta2).unwrap();
-	let gamma2_affine = G2Affine::from_uncompressed(&gamma2).unwrap();
-	let delta1_affine = G1Affine::from_uncompressed(&delta1).unwrap();
-	let delta2_affine = G2Affine::from_uncompressed(&delta2).unwrap();
-	let ic0_affine = G1Affine::from_uncompressed(&ic_0).unwrap();
-	let ic1_affine = G1Affine::from_uncompressed(&ic_1).unwrap();
+	let alpha1_affine = bellman_G1::from_uncompressed(&alpha1).unwrap();
+	let beta1_affine = bellman_G1::from_uncompressed(&beta1).unwrap();
+	let beta2_affine = bellman_G2::from_uncompressed(&beta2).unwrap();
+	let gamma2_affine = bellman_G2::from_uncompressed(&gamma2).unwrap();
+	let delta1_affine = bellman_G1::from_uncompressed(&delta1).unwrap();
+	let delta2_affine = bellman_G2::from_uncompressed(&delta2).unwrap();
+	let ic0_affine = bellman_G1::from_uncompressed(&ic_0).unwrap();
+	let ic1_affine = bellman_G1::from_uncompressed(&ic_1).unwrap();
 	ic.push(ic0_affine);
 	ic.push(ic1_affine);
 
