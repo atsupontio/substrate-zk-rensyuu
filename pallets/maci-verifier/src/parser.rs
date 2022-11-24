@@ -1,9 +1,9 @@
 use super::{ProofStr, VkeyStr};
 use bellman_verifier::{Proof, VerifyingKey};
-use pairing::bls12_381::{G1Affine, G2Affine};
-use pairing::Engine;
+use pairing_ce::bls12_381::{G1Affine, G2Affine, G1Uncompressed, G2Uncompressed};
+use pairing_ce::{Engine, EncodedPoint, CurveProjective};
 use sp_std::vec::Vec;
-use bls12_381::{G1Affine as bellman_G1, G2Affine as bellman_G2};
+// use bls12_381::{G1Affine as bellman_G1, G2Affine as bellman_G2};
 
 pub fn parse_proof<E>(pof: ProofStr) -> Proof<E>
 where
@@ -29,9 +29,13 @@ where
 		c_arr[i] = pi_c[i];
 	}
 
-	let pia_affine = bellman_G1::from_uncompressed(&a_arr).unwrap();
-	let pib_affine = bellman_G2::from_uncompressed(&b_arr).unwrap();
-	let pic_affine = bellman_G1::from_uncompressed(&c_arr).unwrap();
+	let a:G1Uncompressed = G1Uncompressed(a_arr);
+	let b:G2Uncompressed = G2Uncompressed(b_arr);
+	let c:G1Uncompressed = G1Uncompressed(c_arr);
+
+	let pia_affine = a.into_affine().unwrap();
+	let pib_affine = b.into_affine().unwrap();
+	let pic_affine = c.into_affine().unwrap();
 
 	Proof { a: pia_affine, b: pib_affine, c: pic_affine }
 }
@@ -90,14 +94,23 @@ where
 		ic_1[i] = vk_ic[1][i];
 	}
 
-	let alpha1_affine = bellman_G1::from_uncompressed(&alpha1).unwrap();
-	let beta1_affine = bellman_G1::from_uncompressed(&beta1).unwrap();
-	let beta2_affine = bellman_G2::from_uncompressed(&beta2).unwrap();
-	let gamma2_affine = bellman_G2::from_uncompressed(&gamma2).unwrap();
-	let delta1_affine = bellman_G1::from_uncompressed(&delta1).unwrap();
-	let delta2_affine = bellman_G2::from_uncompressed(&delta2).unwrap();
-	let ic0_affine = bellman_G1::from_uncompressed(&ic_0).unwrap();
-	let ic1_affine = bellman_G1::from_uncompressed(&ic_1).unwrap();
+	let alpha1:G1Uncompressed = G1Uncompressed(alpha1);
+	let beta1:G1Uncompressed = G1Uncompressed(beta1);
+	let beta2:G2Uncompressed = G2Uncompressed(beta2);
+	let gamma2:G2Uncompressed = G2Uncompressed(gamma2);
+	let delta1:G1Uncompressed = G1Uncompressed(delta1);
+	let delta2:G2Uncompressed = G2Uncompressed(delta2);
+	let ic0:G1Uncompressed = G1Uncompressed(ic_0);
+	let ic1:G1Uncompressed = G1Uncompressed(ic_1);
+
+	let alpha1_affine = alpha1.into_affine().unwrap();
+	let beta1_affine = beta1.into_affine().unwrap();
+	let beta2_affine = beta2.into_affine().unwrap();
+	let gamma2_affine = gamma2.into_affine().unwrap();
+	let delta1_affine = delta1.into_affine().unwrap();
+	let delta2_affine = delta2.into_affine().unwrap();
+	let ic0_affine = ic0.into_affine().unwrap();
+	let ic1_affine = ic1.into_affine().unwrap();
 	ic.push(ic0_affine);
 	ic.push(ic1_affine);
 

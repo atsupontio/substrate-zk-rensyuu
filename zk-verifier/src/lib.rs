@@ -1,6 +1,6 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
-use pairing::{
+use pairing_ce::{
     Engine,
     CurveAffine,
     EncodedPoint

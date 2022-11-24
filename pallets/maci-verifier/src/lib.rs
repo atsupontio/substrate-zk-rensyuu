@@ -14,9 +14,9 @@ pub mod pallet {
 	use bellman_verifier::{prepare_verifying_key, verify_proof};
 	use frame_support::pallet_prelude::*;
 	use frame_system::pallet_prelude::*;
-	use sp_std::vec::Vec;
-	use pairing::bls12_381::Bls12;
-	use ff::PrimeField as Fr;
+	use pairing_ce::ff::PrimeField;
+use sp_std::vec::Vec;
+	use pairing_ce::bls12_381::Bls12;
 
 	#[pallet::config]
 	pub trait Config: frame_system::Config {
@@ -105,7 +105,7 @@ pub mod pallet {
 
 							let pvk =  prepare_verifying_key(&vkey);
 
-							match verify_proof(&pvk, &proof, &[Fr::from_str_vartime("35").unwrap()]) {
+							match verify_proof(&pvk, &proof, &[PrimeField::from_str("35").unwrap()]) {
 								Ok(()) => Self::deposit_event(Event::<T>::VerificationPassed(who)),
 								Err(e) => {
 									log::info!("{:?}", e);

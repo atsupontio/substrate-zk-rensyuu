@@ -22,10 +22,11 @@ sp-std = { default-features = false, version = "4.0.0-dev", git = "https://githu
 # zk lib
 bellman-verifier = { path = "../../zk-verifier", default-features = false}
 # bellman-verifier = { git = "https://github.com/DoraFactory/snarkjs-bellman-adapter.git", default-features = false, version = "0.1.0"}
-ff = { version = "0.12" }
+# ff = { version = "0.12", default-features = false }
 # pairing = { version = "0.22", default-features = false }
-bls12_381 = {version = "0.7" }
-pairing = {package = "pairing_ce", version = "0.28.*" }
+# bls12_381 = {version = "0.7" }
+# pairing = {package = "pairing_ce", version = "0.28.*" }
+pairing_ce = { git = "https://github.com/atsupontio/pairing.git", default-features = false }
 
 # log
 log = "0.4.17"

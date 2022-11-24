@@ -1,12 +1,12 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
 
-use pairing::{
+use pairing_ce::{
     Engine,
     CurveProjective,
     CurveAffine
 };
-use pairing::ff::PrimeField;
+use pairing_ce::ff::PrimeField;
 use super::{PreparedVerifyingKey, Proof, VerifyingKey, VerificationError};
 
 use sp_std::ops::{AddAssign, Neg};
